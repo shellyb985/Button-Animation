@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    
     var btnFirstAnimationSecond = 0.3
     var btnSecondAnimationSecond = 0.2
     
@@ -18,26 +18,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var backgroundTransitions = [String]()
     var icon = [String]()
     var borderTransition = [String]()
-
+    let blueColor = UIColor.init(red: 0.0/255.0, green: 188.0/255.0, blue: 212.0/255.0, alpha: 1.0)
     var selectedIndex = 0
     
     @IBOutlet weak var btnAnimate: UIButton!
     @IBOutlet weak var tblView: UITableView!
     @IBOutlet weak var collectionVw: UICollectionView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let screenWidth = UIScreen.main.bounds.width
         
         animationHeader.append("2D Transitions")
         animationHeader.append("Background Transitions")
         animationHeader.append("Icons")
         animationHeader.append("Border Transitions")
-//        animationHeader.append("Shadow and Glow Transitions")
-//        animationHeader.append("Speech Bubbles")
-//        animationHeader.append("Curls")
-
-
+        //        animationHeader.append("Shadow and Glow Transitions")
+        //        animationHeader.append("Speech Bubbles")
+        //        animationHeader.append("Curls")
+        
+        
         animationType.append("Zoom out")
         animationType.append("Zoom in")
         animationType.append("Move left")
@@ -66,8 +67,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         backgroundTransitions.append("Shutter Out Horizontal")
         backgroundTransitions.append("Shutter in Vertical")
         backgroundTransitions.append("Shutter Out Vertical")
-
-
+        
+        
         //Border Animation
         borderTransition.append("Border Fade")
         borderTransition.append("Hollow")
@@ -77,15 +78,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         borderTransition.append("Outline Out")
         borderTransition.append("Outline In")
         borderTransition.append("Round corner")
-
-
+        borderTransition.append("Underline from left")
+        borderTransition.append("Underline from center")
+        borderTransition.append("Underline form right")
+        borderTransition.append("Reveal")
+        borderTransition.append("Underline Reveal")
+        borderTransition.append("Overline Reveal")
+        borderTransition.append("Overline From Left")
+        borderTransition.append("Overline From Center")
+        borderTransition.append("Overline From Right")
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     @IBAction func onClickButtonAnimate(_ sender: Any) {
         startAnimation(selectedIndex)
     }
@@ -103,10 +112,18 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         else if section == 3 {
             return borderTransition.count
         }
-    
+        
         
         return 0
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let kWhateverHeightYouWant = 70
+        return CGSize.init(width: (self.collectionVw.bounds.size.width-20)/3, height: CGFloat(kWhateverHeightYouWant))
+    }
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellIdentifier = "CollectionViewCell"
@@ -146,7 +163,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         header.lblHeader.text = animationHeader[indexPath.section]
         return header
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -165,13 +182,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-
+    
     //MARK:-
     func startAnimation(_ index: Int) -> Void {
         UIView.animate(withDuration: btnFirstAnimationSecond, animations: {
-
+            
             self.animate(index)
-
+            
         }) { (result) in
             UIView.animate(withDuration: self.btnSecondAnimationSecond, animations: {
                 self.btnAnimate.transform = CGAffineTransform.identity
@@ -183,88 +200,88 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     func animate(_ index: Int) -> Void {
         
         
-            switch index {
-            case 0:
-                self.buttonZoomOut()
-                break;
-                
-            case 1:
-                self.buttonZoomIn()
-                break;
-                
-            case 2:
-                self.buttonMoveLeft()
-                break;
-                
-            case 3:
-                self.buttonMoveRight()
-                break;
-                
-            case 4:
-                self.buttonMoveTop()
-                break;
-                
-            case 5:
-                self.buttonMoveBottom()
-                break;
-                
-            case 6:
-                self.buttonRotateClockwise()
-                break;
-                
-            case 7:
-                self.buttonRotateAntiClockwise()
-                break;
-                
-            default:
-                break;
-            }
+        switch index {
+        case 0:
+            self.buttonZoomOut()
+            break;
             
+        case 1:
+            self.buttonZoomIn()
+            break;
+            
+        case 2:
+            self.buttonMoveLeft()
+            break;
+            
+        case 3:
+            self.buttonMoveRight()
+            break;
+            
+        case 4:
+            self.buttonMoveTop()
+            break;
+            
+        case 5:
+            self.buttonMoveBottom()
+            break;
+            
+        case 6:
+            self.buttonRotateClockwise()
+            break;
+            
+        case 7:
+            self.buttonRotateAntiClockwise()
+            break;
+            
+        default:
+            break;
+        }
+        
     }
     
     //MARK:-
     func backgroundTransitionAnimation (_ index: Int) {
         let type = backgroundTransitions[index]
         /*
-        UIView.transition(with: self.btnAnimate, duration: 0.4, options: UIViewAnimationOptions.transitionFlipFromLeft, animations: {
-            self.btnAnimate.backgroundColor = UIColor.blue
-        }) { (result) in
-            self.btnAnimate.backgroundColor = UIColor.white
-        }
-        */
-//        CATransaction.begin()
-//        CATransaction.setAnimationDuration(0.5)
-//
-//        self.btnAnimate.layer.backgroundColor = UIColor.blue.cgColor
-//        CATransformLayer.
-//
-//        CATransaction.commit()
+         UIView.transition(with: self.btnAnimate, duration: 0.4, options: UIViewAnimationOptions.transitionFlipFromLeft, animations: {
+         self.btnAnimate.backgroundColor = UIColor.blue
+         }) { (result) in
+         self.btnAnimate.backgroundColor = UIColor.white
+         }
+         */
+        //        CATransaction.begin()
+        //        CATransaction.setAnimationDuration(0.5)
+        //
+        //        self.btnAnimate.layer.backgroundColor = UIColor.blue.cgColor
+        //        CATransformLayer.
+        //
+        //        CATransaction.commit()
         
-//        let flash = CABasicAnimation(keyPath: "opacity")
-//        flash.duration = 0.5
-//        flash.fromValue = 1
-//        flash.toValue = 0.1
-//        //flash.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//        flash.timingFunction = CAMediaTimingFunction.init(controlPoints: 0, 0, Float(self.btnAnimate.frame.size.width), Float(self.btnAnimate.frame.size.height))
-//        flash.autoreverses = true
-//
-//        self.btnAnimate.layer.add(flash, forKey: nil)
-
+        //        let flash = CABasicAnimation(keyPath: "opacity")
+        //        flash.duration = 0.5
+        //        flash.fromValue = 1
+        //        flash.toValue = 0.1
+        //        //flash.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        //        flash.timingFunction = CAMediaTimingFunction.init(controlPoints: 0, 0, Float(self.btnAnimate.frame.size.width), Float(self.btnAnimate.frame.size.height))
+        //        flash.autoreverses = true
+        //
+        //        self.btnAnimate.layer.add(flash, forKey: nil)
         
-//        CALayer *layer = [CALayer layer];
-//        layer.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
-//        layer.backgroundColor = [UIColor blueColor].CGColor;
-//        [self.view.layer addSublayer:layer];
-//
-//        CABasicAnimation *animation = [CABasicAnimation animation];
-//        animation.keyPath = @"position.y";
-//        animation.byValue = @(-self.view.bounds.size.height);
-//        animation.duration = 1;
-//
-//        animation.fillMode = kCAFillModeForwards;
-//        animation.removedOnCompletion = NO;
-//
-//        [layer addAnimation:animation forKey:@"Splash"];
+        
+        //        CALayer *layer = [CALayer layer];
+        //        layer.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
+        //        layer.backgroundColor = [UIColor blueColor].CGColor;
+        //        [self.view.layer addSublayer:layer];
+        //
+        //        CABasicAnimation *animation = [CABasicAnimation animation];
+        //        animation.keyPath = @"position.y";
+        //        animation.byValue = @(-self.view.bounds.size.height);
+        //        animation.duration = 1;
+        //
+        //        animation.fillMode = kCAFillModeForwards;
+        //        animation.removedOnCompletion = NO;
+        //
+        //        [layer addAnimation:animation forKey:@"Splash"];
         
         let layer = CALayer.init()
         layer.frame = self.btnAnimate.frame
@@ -308,39 +325,88 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func borderTransitionAnimation(_ Index: Int) -> Void {
-    
+        
+        
         let type = borderTransition[Index]
         
         switch(type) {
-            case "Border Fade" :
-                self.borderFade()
-                break
-            case "Hollow" :
-                self.hollow()
-                break
-            case "Trim":
-                self.trim()
-                break
-            case "Ripple Out" :
-                self.rippleOut()
+        case "Border Fade" :
+            self.borderFade()
             break
-            case "Ripple In" : break
-            case "Outline Out" : break
-            case "Outline In" : break
-            case "Round corner" : break
+        case "Hollow" :
+            self.hollow()
+            break
+        case "Trim":
+            self.trim()
+            break
+        case "Ripple Out" :
+            self.rippleOut()
+            break
+        case "Ripple In" :
+            self.rippleIn()
+            break
+        case "Outline Out" :
+            self.outlineOut()
+            break
+        case "Outline In" :
+            self.outlineIn()
+            break
+        case "Round corner" :
+            self.roundCorner()
+            break
+        case "Underline from left" :
+            self.underLineFromLeft()
+            break
+        case "Underline from center" :
+            self.underlineFromCenter()
+            break
+        case "Underline form right" :
+            self.underLineFromRight()
+            break
+        case "Reveal" :
+            self.reveal()
+            break
+        case "Underline Reveal" :
+            self.underlineReveal()
+            break
+        case "Overline Reveal" :
+            self.overlineReveal()
+            break
+        case "Overline From Left" :
+            self.overlineFromLeft()
+            break
+        case "Overline From Center" :
+            self.overlineFromCenter()
+            break
+        case "Overline From Right" :
+            self.overlineFromRight()
+            break
             
-            default : break;
+            
+        default : break;
         }
     }
     
     func borderFade() -> Void {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.btnAnimate.layer.borderWidth = 3.0
-            self.btnAnimate.layer.borderColor = UIColor.blue.cgColor
-        }) { (_) in
-            self.btnAnimate.layer.borderWidth = 0.0
-            self.btnAnimate.layer.borderColor = UIColor.clear.cgColor
+        
+        let layer = CALayer.init()
+        layer.frame = CGRect.init(x: 0, y: 0, width: self.btnAnimate.frame.size.width, height: self.btnAnimate.frame.size.height)
+        layer.borderWidth = 3.0;
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
         }
+        layer.add(animation, forKey: "MyAnimation")
+        
     }
     
     func hollow() {
@@ -354,13 +420,31 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             self.btnAnimate.backgroundColor = UIColor.white
             self.btnAnimate.layer.borderWidth = 0.0
             self.btnAnimate.layer.borderColor = UIColor.clear.cgColor
-
+            
         }
-
+        
     }
     func trim() {
         
+        let layer = CALayer.init()
+        layer.frame = CGRect.init(x: 3, y: 3, width: self.btnAnimate.frame.size.width-6, height: self.btnAnimate.frame.size.height-6)
+        layer.borderWidth = 3.0;
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
     }
+    
     func rippleOut() {
         
     }
@@ -369,16 +453,296 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     func outlineOut() {
         
+        let startFrame = CGRect.init(x: -5, y: -5, width: self.btnAnimate.frame.size.width+10, height: self.btnAnimate.frame.size.height+10)
+
+        let endFrame = CGRect.init(x: -15, y: -15, width: self.btnAnimate.frame.size.width+30, height: self.btnAnimate.frame.size.height+30)
+        
+        
+        let layer = CALayer.init()
+        layer.frame = startFrame
+        layer.borderWidth = 3.0
+        layer.borderColor = UIColor.white.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let baseAnimation = CABasicAnimation.init(keyPath: "bounds")
+        baseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        baseAnimation.fromValue = NSValue.init(cgRect: startFrame)
+        baseAnimation.toValue = NSValue.init(cgRect: endFrame)
+        layer.frame = endFrame
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(baseAnimation, forKey: "frame")
     }
     func outlineIn() {
+        
+        let startFrame = CGRect.init(x: -15, y: -15, width: self.btnAnimate.frame.size.width+30, height: self.btnAnimate.frame.size.height+30)
+        
+        let endFrame = CGRect.init(x: -5, y: -5, width: self.btnAnimate.frame.size.width+10, height: self.btnAnimate.frame.size.height+10)
+        
+        let layer = CALayer.init()
+        layer.frame = startFrame
+        layer.borderWidth = 3.0
+        layer.borderColor = UIColor.white.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let baseAnimation = CABasicAnimation.init(keyPath: "bounds")
+        baseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        baseAnimation.fromValue = NSValue.init(cgRect: startFrame)
+        baseAnimation.toValue = NSValue.init(cgRect: endFrame)
+        layer.frame = endFrame
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(baseAnimation, forKey: "frame")
+
+        
         
     }
     func roundCorner() {
         
+        UIView.animate(withDuration: 0.70, animations: {
+            self.btnAnimate.layer.cornerRadius = 18.0
+        }) { (_) in
+            UIView.animate(withDuration: 0.30, animations: {
+                self.btnAnimate.layer.cornerRadius = 0.0
+            }) { (_) in
+            }
+        }
+        
     }
     
+    func underLineFromLeft() {
+        
+        let bezierpath = UIBezierPath.init()
+        bezierpath.move(to: CGPoint.init(x: 0, y: self.btnAnimate.frame.size.height-2))
+        bezierpath.addLine(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: self.btnAnimate.frame.size.height-2))
+        
+        let layer = CAShapeLayer.init()
+        layer.strokeColor = blueColor.cgColor
+        layer.lineWidth = 4.0
+        layer.path = bezierpath.cgPath
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+        
+    }
+    func underlineFromCenter() {
+        
+        let center = CGPoint.init(x: (self.btnAnimate.frame.width/2), y: self.btnAnimate.frame.height-2)
+        //Rignt -- >
+        let bezierpathToRight = UIBezierPath.init()
+        bezierpathToRight.move(to: center)
+        bezierpathToRight.addLine(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: self.btnAnimate.frame.size.height-2))
+        
+        let layerRight = CAShapeLayer.init()
+        layerRight.strokeColor = blueColor.cgColor
+        layerRight.lineWidth = 4.0
+        layerRight.path = bezierpathToRight.cgPath
+        self.btnAnimate.layer.addSublayer(layerRight)
+        
+        //Left -- >
+        let bezierpathToLeft = UIBezierPath.init()
+        bezierpathToLeft.move(to: center)
+        bezierpathToLeft.addLine(to: CGPoint.init(x:  0, y: self.btnAnimate.frame.size.height-2))
+        
+        let layerLeft = CAShapeLayer.init()
+        layerLeft.strokeColor = blueColor.cgColor
+        layerLeft.lineWidth = 4.0
+        layerLeft.path = bezierpathToLeft.cgPath
+        self.btnAnimate.layer.addSublayer(layerLeft)
+        
+        //Animaiton -- >
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layerLeft.removeFromSuperlayer()
+            layerRight.removeFromSuperlayer()
+        }
+        layerLeft.add(animation, forKey: "MyAnimation")
+        layerRight.add(animation, forKey: "MyAnimation")
+        
+    }
+    func underLineFromRight() {
+        let bezierpath = UIBezierPath.init()
+        bezierpath.move(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: self.btnAnimate.frame.size.height-2))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: self.btnAnimate.frame.size.height-2))
+        
+        let layer = CAShapeLayer.init()
+        layer.strokeColor = blueColor.cgColor
+        layer.lineWidth = 4.0
+        layer.path = bezierpath.cgPath
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+    }
+    
+    func reveal () {
+        
+
+        
+    }
+    func underlineReveal () {
+        
+    }
+    func overlineReveal () {
+        /*
+        //let bezierpath = UIBezierPath(roundedRect: CGRect.init(x: 0, y: 2, width: self.btnAnimate.frame.width, height: 4), cornerRadius: 0.0)
+        
+        let layer = CAShapeLayer.init()
+        layer.frame = CGRect.init(x: 0, y: 2, width: self.btnAnimate.frame.width, height: 4)
+        layer.strokeColor = blueColor.cgColor
+        layer.lineWidth = 4.0
+        //layer.path = bezierpath.cgPath
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "fillColor")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+*/
+        
+        
+        // setup
+        let rect = CGRect(x: 0, y: 0, width: self.btnAnimate.bounds.width, height: 10)
+        
+        let rectShape = CAShapeLayer.init()
+
+        rectShape.bounds = rect
+        rectShape.position = view.center
+        rectShape.path = UIBezierPath(rect:rect).cgPath
+        
+        // 1
+        rectShape.lineWidth = 10
+        rectShape.strokeColor = blueColor.cgColor
+        
+        self.btnAnimate.layer.addSublayer(rectShape)
+        // animate
+        let animation = CABasicAnimation(keyPath: "lineWidth")
+        // 2
+        animation.toValue = 1000
+        animation.duration = 1 // duration is 1 sec
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut) // animation curve is Ease Out
+        animation.fillMode = kCAFillModeBoth // keep to value after finishing
+        animation.isRemovedOnCompletion = false // don't remove after finishing
+        rectShape.add(animation, forKey: animation.keyPath)
+        //rectShape.addAnimation(animation, forKey: animation.keyPath)
+        
+    }
+    func overlineFromLeft () {
+        let bezierpath = UIBezierPath.init()
+        bezierpath.move(to: CGPoint.init(x: 0, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: 0))
+        
+        let layer = CAShapeLayer.init()
+        layer.strokeColor = blueColor.cgColor
+        layer.lineWidth = 4.0
+        layer.path = bezierpath.cgPath
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+    }
+    func overlineFromCenter () {
+    
+        let center = CGPoint.init(x: (self.btnAnimate.frame.width/2), y: 0)
+        //Rignt -- >
+        let bezierpathToRight = UIBezierPath.init()
+        bezierpathToRight.move(to: center)
+        bezierpathToRight.addLine(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: 0))
+        
+        let layerRight = CAShapeLayer.init()
+        layerRight.strokeColor = blueColor.cgColor
+        layerRight.lineWidth = 4.0
+        layerRight.path = bezierpathToRight.cgPath
+        self.btnAnimate.layer.addSublayer(layerRight)
+        
+        //Left -- >
+        let bezierpathToLeft = UIBezierPath.init()
+        bezierpathToLeft.move(to: center)
+        bezierpathToLeft.addLine(to: CGPoint.init(x:  0, y: 0))
+        
+        let layerLeft = CAShapeLayer.init()
+        layerLeft.strokeColor = blueColor.cgColor
+        layerLeft.lineWidth = 4.0
+        layerLeft.path = bezierpathToLeft.cgPath
+        self.btnAnimate.layer.addSublayer(layerLeft)
+        
+        //Animaiton -- >
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layerLeft.removeFromSuperlayer()
+            layerRight.removeFromSuperlayer()
+        }
+        layerLeft.add(animation, forKey: "MyAnimation")
+        layerRight.add(animation, forKey: "MyAnimation")
+    }
+    
+    func overlineFromRight () {
+        let bezierpath = UIBezierPath.init()
+        bezierpath.move(to: CGPoint.init(x:  self.btnAnimate.frame.size.width, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: 0))
+        
+        let layer = CAShapeLayer.init()
+        layer.strokeColor = blueColor.cgColor
+        layer.lineWidth = 4.0
+        layer.path = bezierpath.cgPath
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+        
+    }
+    
+    //MARK:-
     func buttonZoomOut() -> Void {
-        self.btnAnimate.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+           self.btnAnimate.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
     }
     
     func buttonZoomIn() -> Void {
@@ -410,8 +774,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-
-
+    
+    
 }
 
 
