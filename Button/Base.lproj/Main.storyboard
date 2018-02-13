@@ -92,23 +92,23 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="70"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njD-iz-DvA">
-                                                            <rect key="frame" x="5" y="5" width="90" height="60"/>
-                                                            <fontDescription key="fontDescription" name="Avenir-BookOblique" family="Avenir" pointSize="15"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="70"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-BookOblique" family="Avenir" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.83137254900000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="njD-iz-DvA" firstAttribute="leading" secondItem="9eC-na-e0I" secondAttribute="leading" constant="5" id="9zR-O6-vmY"/>
-                                                        <constraint firstItem="njD-iz-DvA" firstAttribute="top" secondItem="9eC-na-e0I" secondAttribute="top" constant="5" id="Dpt-p7-r3T"/>
-                                                        <constraint firstAttribute="trailing" secondItem="njD-iz-DvA" secondAttribute="trailing" constant="5" id="MMb-64-tQM"/>
-                                                        <constraint firstAttribute="bottom" secondItem="njD-iz-DvA" secondAttribute="bottom" constant="5" id="Rmb-5j-JtN"/>
+                                                        <constraint firstItem="njD-iz-DvA" firstAttribute="leading" secondItem="9eC-na-e0I" secondAttribute="leading" id="9zR-O6-vmY"/>
+                                                        <constraint firstItem="njD-iz-DvA" firstAttribute="top" secondItem="9eC-na-e0I" secondAttribute="top" id="Dpt-p7-r3T"/>
+                                                        <constraint firstAttribute="trailing" secondItem="njD-iz-DvA" secondAttribute="trailing" id="MMb-64-tQM"/>
+                                                        <constraint firstAttribute="bottom" secondItem="njD-iz-DvA" secondAttribute="bottom" id="Rmb-5j-JtN"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                         </view>
-                                        <color key="backgroundColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="9eC-na-e0I" secondAttribute="bottom" id="EdX-7w-dfc"/>
                                             <constraint firstAttribute="trailing" secondItem="9eC-na-e0I" secondAttribute="trailing" id="FjW-ip-Aov"/>
@@ -117,6 +117,7 @@
                                         </constraints>
                                         <size key="customSize" width="100" height="70"/>
                                         <connections>
+                                            <outlet property="containerView" destination="9eC-na-e0I" id="w5R-IN-n46"/>
                                             <outlet property="lblAnimationTitle" destination="njD-iz-DvA" id="1bo-uu-62f"/>
                                         </connections>
                                     </collectionViewCell>
@@ -148,7 +149,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" red="0.023529411764705882" green="0.73725490196078436" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.88142903645833337" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LrQ-Bf-FHU" firstAttribute="top" secondItem="ryX-dh-Qm3" secondAttribute="bottom" constant="40" id="7A0-Bt-Cdw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LrQ-Bf-FHU" secondAttribute="trailing" id="98G-dm-Sai"/>

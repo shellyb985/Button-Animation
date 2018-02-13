@@ -14,10 +14,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var btnSecondAnimationSecond = 0.2
     
     var animationHeader = [String]()
+    
     var animationType = [String]()
     var backgroundTransitions = [String]()
     var icon = [String]()
     var borderTransition = [String]()
+    var shadowAndGrowTransition = [String]()
+    var speechBubbles = [String]()
+    var curls = [String]()
+
+    
     let blueColor = UIColor.init(red: 0.0/255.0, green: 188.0/255.0, blue: 212.0/255.0, alpha: 1.0)
     var selectedIndex = 0
     
@@ -34,11 +40,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         animationHeader.append("Background Transitions")
         animationHeader.append("Icons")
         animationHeader.append("Border Transitions")
-        //        animationHeader.append("Shadow and Glow Transitions")
-        //        animationHeader.append("Speech Bubbles")
-        //        animationHeader.append("Curls")
+        animationHeader.append("Shadow and Glow Transitions")
+        animationHeader.append("Speech Bubbles")
+        animationHeader.append("Curls")
         
         
+        //2D Transition
         animationType.append("Zoom out")
         animationType.append("Zoom in")
         animationType.append("Move left")
@@ -68,7 +75,35 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         backgroundTransitions.append("Shutter in Vertical")
         backgroundTransitions.append("Shutter Out Vertical")
         
-        
+        //Icon
+        icon.append("Icon back")
+        icon.append("Icon forward")
+        icon.append("Icon down")
+        icon.append("Icon up")
+        icon.append("Icon spin")
+        icon.append("Icon drop")
+        icon.append("Icon fade")
+        icon.append("Icon float away")
+        icon.append("Icon sink away")
+        icon.append("Icon grow")
+        icon.append("Icon shrink")
+        icon.append("Icon pulus")
+        icon.append("Icon pulus grow")
+        icon.append("Icon pulus shrink")
+        icon.append("Icon push")
+        icon.append("Icon pop")
+        icon.append("Icon bounce")
+        icon.append("Icon rotate")
+        icon.append("Icon grow rotate")
+        icon.append("Icon float")
+        icon.append("Icon sink")
+        icon.append("Icon bob")
+        icon.append("Icon hang")
+        icon.append("Icon wobble horizontal")
+        icon.append("Icon wobble vertical")
+        icon.append("Icon buzz")
+        icon.append("Icon buzz out")
+
         //Border Animation
         borderTransition.append("Border Fade")
         borderTransition.append("Hollow")
@@ -88,6 +123,33 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         borderTransition.append("Overline From Center")
         borderTransition.append("Overline From Right")
         
+        //Shadow and grow transition
+        shadowAndGrowTransition.append("Shadow")
+        shadowAndGrowTransition.append("Grow Shadow")
+        shadowAndGrowTransition.append("Float Shadow")
+        shadowAndGrowTransition.append("Grow")
+        shadowAndGrowTransition.append("Shadow Radial")
+        shadowAndGrowTransition.append("Box Shadow Outset")
+        shadowAndGrowTransition.append("Box Shadow Inset")
+        
+        //Speech Bubbles
+        speechBubbles.append("Bubble Top")
+        speechBubbles.append("Bubble Right")
+        speechBubbles.append("Bubble Bottom")
+        speechBubbles.append("Bubble Left")
+        speechBubbles.append("Bubble Float Top")
+        speechBubbles.append("Bubble Float Right")
+        speechBubbles.append("Bubble Float Bottom")
+        speechBubbles.append("Bubble Float Left")
+
+        
+        //Curls
+        curls.append("Curl Top Left")
+        curls.append("Curl Top Right")
+        curls.append("Curl Bottom Left")
+        curls.append("Curl Bottom Right")
+
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,6 +162,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         if section == 0 {
             return animationType.count
         }
@@ -112,9 +175,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         else if section == 3 {
             return borderTransition.count
         }
-        
-        
+        else if section == 4 {
+            return shadowAndGrowTransition.count
+        }
+        else if section == 5 {
+            return speechBubbles.count
+        }
+        else if section == 6 {
+            return curls.count
+        }
         return 0
+
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -129,6 +200,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cellIdentifier = "CollectionViewCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! AnimationTitleCell
         
+        //Title
         var title = ""
         if indexPath.section == 0 {
             title = animationType[indexPath.row]
@@ -142,11 +214,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         else if indexPath.section == 3 {
             title = borderTransition[indexPath.row]
         }
-        else {
-            
+        else if indexPath.section == 4 {
+            title = shadowAndGrowTransition[indexPath.row]
         }
-        
+        else if indexPath.section == 5 {
+            title = speechBubbles[indexPath.row]
+        }
+        else if indexPath.section == 6 {
+            title = curls[indexPath.row]
+        }
         cell.lblAnimationTitle.text = title
+        
+        //Corner radius
+        cell.containerView.layer.cornerRadius = 15.0
+        
         return cell
     }
     
@@ -180,7 +261,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         else if indexPath.section == 3 {
             borderTransitionAnimation(selectedIndex)
         }
-    }
+        else if indexPath.section == 4 {
+            shadowAndGrow(selectedIndex)
+        }
+        else if indexPath.section == 5 {
+            
+        }
+        else if indexPath.section == 6 {
+            curlsAnimation(indexPath.row)
+        }
+     }
     
     
     //MARK:-
@@ -602,10 +692,56 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func reveal () {
         
+        let layer = CALayer.init()
+        layer.frame = CGRect.init(x: 0, y: 0, width: self.btnAnimate.frame.size.width, height: self.btnAnimate.frame.size.height)
+        layer.borderWidth = 3.0;
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.5
+        animation.fromValue = 0
+        animation.toValue = 1
+        
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(animation, forKey: "MyAnimation")
+        
+
 
         
     }
     func underlineReveal () {
+        
+        let btnRect = self.btnAnimate.frame
+        
+        let startFrame = CGRect.init(x: 0, y: btnRect.size.height, width: btnRect.size.width, height: 0)
+        
+        let endFrame = CGRect.init(x: 0, y: btnRect.size.height-5, width: btnRect.size.width, height: 5)
+        
+        
+        let layer = CALayer.init()
+        layer.frame = startFrame
+        layer.borderWidth = 2.5
+        layer.borderColor = UIColor.gray    .cgColor
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+        self.btnAnimate.layer.addSublayer(layer)
+        
+        let baseAnimation = CABasicAnimation.init(keyPath: "bounds")
+        baseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        baseAnimation.fromValue = NSValue.init(cgRect: startFrame)
+        baseAnimation.toValue = NSValue.init(cgRect: endFrame)
+        layer.frame = endFrame
+        CATransaction.setCompletionBlock {
+            layer.removeFromSuperlayer()
+        }
+        layer.add(baseAnimation, forKey: "frame")
+
+        
         
     }
     func overlineReveal () {
@@ -646,7 +782,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         self.btnAnimate.layer.addSublayer(rectShape)
         // animate
-        let animation = CABasicAnimation(keyPath: "lineWidth")
+        let animation = CABasicAnimation(keyPath: "border")
         // 2
         animation.toValue = 1000
         animation.duration = 1 // duration is 1 sec
@@ -774,8 +910,164 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
+    func shadowAndGrow(_ index: Int) {
+        let animation = shadowAndGrowTransition[index]
+        
+        switch animation {
+        case "Shadow":
+            self.shadow()
+            break
+        case "Grow Shadow":
+            self.growShadow()
+            break
+        case "Float Shadow":
+            self.floatShadow()
+            break
+        case "Grow":
+            self.grow()
+            break
+        case "Shadow Radial":
+            self.shadowRadial()
+            break
+        case "Box Shadow Outset":
+            self.boxShadowOutset()
+            break
+        case "Box Shadow Inset":
+            self.boxShadowInset()
+            break
+        default:
+            break
+        }
+        
+    }
+    func shadow() {
+        
+        self.btnAnimate.layer.shadowRadius = 4.0
+        self.btnAnimate.layer.shadowColor = UIColor.black.cgColor
+        self.btnAnimate.layer.shadowOffset = CGSize.init(width: 3.0, height: 3.0)
+
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = 0.0
+        animation.toValue = 0.5
+        animation.duration = 1
+        CATransaction.setCompletionBlock {
+            self.btnAnimate.layer.shadowOpacity = 0.0
+            self.btnAnimate.layer.shadowRadius = 0.0
+            self.btnAnimate.layer.shadowColor = UIColor.clear.cgColor
+
+        }
+        self.btnAnimate.layer.add(animation, forKey: "shadowOpacity")
+        
+    }
     
+    func growShadow() {
+        
+
+    }
     
+    func floatShadow() {
+        
+    }
+    
+    func grow() {
+        
+    }
+    
+    func shadowRadial() {
+        
+    }
+    
+    func boxShadowOutset() {
+        
+    }
+    
+    func boxShadowInset() {
+        
+    }
+    
+    //MARK:- Curls
+    func curlsAnimation(_ index: Int) {
+        let animation = curls[index]
+
+        switch animation {
+
+        case "Curl Top Left":
+            self.curlsTopLeft()
+            break
+        case "Curl Top Right":
+            self.curlsTopRight()
+            break
+        case "Curl Bottom Left":
+            self.curlsBottomLeft()
+            break
+
+        case "Curl Bottom Right":
+            self.curlsBottomRight()
+            break
+        default:
+            break
+        }
+    }
+    
+    func curlsTopLeft () {
+            let animation = CATransition.init()
+            animation.duration = 1.0
+            animation.startProgress = 0.0
+            animation.endProgress = 0.6
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+            animation.type = "CurlTopLeft"
+            animation.subtype = kCATransitionFromTop
+            animation.isRemovedOnCompletion = true
+            animation.fillMode = kCAFillModeBoth
+            
+            self.btnAnimate.layer.add(animation, forKey: "FlipAnimation")
+        
+    }
+    
+    func curlsTopRight () {
+        let animation = CATransition.init()
+        animation.duration = 1.0
+        animation.startProgress = 0.0
+        animation.endProgress = 0.6
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.type = "pageCurl"
+        animation.subtype = kCATransitionFromRight
+        animation.isRemovedOnCompletion = true
+        animation.fillMode = kCAFillModeBoth
+        
+        self.btnAnimate.layer.add(animation, forKey: "FlipAnimation")
+    }
+    
+    func curlsBottomRight() {
+        let animation = CATransition.init()
+        animation.duration = 1.0
+        animation.startProgress = 0.0
+        animation.endProgress = 0.6
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.type = "pageCurl"
+        animation.subtype = kCATransitionFromTop
+        animation.isRemovedOnCompletion = true
+        animation.fillMode = kCAFillModeForwards
+        
+        self.btnAnimate.layer.add(animation, forKey: "FlipAnimation")
+
+    }
+    
+    func curlsBottomLeft() {
+        
+        let animation = CATransition.init()
+        animation.duration = 1.0
+        animation.startProgress = 0.0
+        animation.endProgress = 0.6
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.type = "pageCurl"
+        animation.subtype = kCATransitionFromLeft
+        animation.isRemovedOnCompletion = true
+        animation.fillMode = kCAFillModeForwards
+        
+        self.btnAnimate.layer.add(animation, forKey: "FlipAnimation")
+        
+    }
 }
 
 

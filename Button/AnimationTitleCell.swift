@@ -10,5 +10,6 @@ import UIKit
 
 class AnimationTitleCell: UICollectionViewCell {
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var lblAnimationTitle: UILabel!
 }
