@@ -54,7 +54,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         animationType.append("Move bottom")
         animationType.append("Rotate Clockwise")
         animationType.append("Rotate Anti-Clockwise")
-        
+        /*
         //backgroundTransitions - section II
         backgroundTransitions.append("Fade")
         backgroundTransitions.append("Back Pulse")
@@ -74,7 +74,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         backgroundTransitions.append("Shutter Out Horizontal")
         backgroundTransitions.append("Shutter in Vertical")
         backgroundTransitions.append("Shutter Out Vertical")
-        
+        */
+ 
+        /*
         //Icon
         icon.append("Icon back")
         icon.append("Icon forward")
@@ -103,7 +105,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         icon.append("Icon wobble vertical")
         icon.append("Icon buzz")
         icon.append("Icon buzz out")
-
+        */
+        
+        
         //Border Animation
         borderTransition.append("Border Fade")
         borderTransition.append("Hollow")
@@ -132,6 +136,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         shadowAndGrowTransition.append("Box Shadow Outset")
         shadowAndGrowTransition.append("Box Shadow Inset")
         
+        
+        /*
         //Speech Bubbles
         speechBubbles.append("Bubble Top")
         speechBubbles.append("Bubble Right")
@@ -141,7 +147,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         speechBubbles.append("Bubble Float Right")
         speechBubbles.append("Bubble Float Bottom")
         speechBubbles.append("Bubble Float Left")
-
+        */
         
         //Curls
         curls.append("Curl Top Left")
@@ -909,7 +915,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         self.btnAnimate.transform = CGAffineTransform.init(rotationAngle: CGFloat((Double.pi*(-120.0))/180.0))
     }
     
-    
+    //MARK:- Shadow and grow transition
     func shadowAndGrow(_ index: Int) {
         let animation = shadowAndGrowTransition[index]
         
@@ -942,7 +948,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     func shadow() {
         
-        self.btnAnimate.layer.shadowRadius = 4.0
+        self.btnAnimate.layer.shadowRadius = 2.0
         self.btnAnimate.layer.shadowColor = UIColor.black.cgColor
         self.btnAnimate.layer.shadowOffset = CGSize.init(width: 3.0, height: 3.0)
 
@@ -971,6 +977,22 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func grow() {
         
+        self.btnAnimate.layer.shadowRadius = 6.0
+        self.btnAnimate.layer.shadowColor = UIColor.black.cgColor
+        self.btnAnimate.layer.shadowOffset = CGSize.init(width: 0.0, height: 0.0)
+        
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = 0.0
+        animation.toValue = 0.5
+        animation.duration = 1
+        CATransaction.setCompletionBlock {
+            self.btnAnimate.layer.shadowOpacity = 0.0
+            self.btnAnimate.layer.shadowRadius = 0.0
+            self.btnAnimate.layer.shadowColor = UIColor.clear.cgColor
+            
+        }
+        self.btnAnimate.layer.add(animation, forKey: "shadowOpacity")
+
     }
     
     func shadowRadial() {
@@ -979,10 +1001,96 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func boxShadowOutset() {
         
+        self.btnAnimate.layer.shadowRadius = 3.0
+        self.btnAnimate.layer.shadowColor = UIColor.black.cgColor
+        self.btnAnimate.layer.shadowOffset = CGSize.init(width: 3.0, height: 3.0)
+        
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = 0.0
+        animation.toValue = 1.0
+        animation.duration = 1
+        CATransaction.setCompletionBlock {
+            self.btnAnimate.layer.shadowOpacity = 0.0
+            self.btnAnimate.layer.shadowRadius = 0.0
+            self.btnAnimate.layer.shadowColor = UIColor.clear.cgColor
+            
+        }
+        self.btnAnimate.layer.add(animation, forKey: "shadowOpacity")
+
+        
     }
     
     func boxShadowInset() {
         
+
+        let bezierpath = UIBezierPath.init()
+        bezierpath.move(to: CGPoint.init(x: 0, y: self.btnAnimate.frame.size.height))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: self.btnAnimate.frame.size.height))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x: self.btnAnimate.frame.size.width, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x: self.btnAnimate.frame.size.width, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: 0))
+        bezierpath.addLine(to: CGPoint.init(x: 0, y: self.btnAnimate.frame.size.height))
+        
+        let layer = self.btnAnimate.layer.presentation()//CAShapeLayer.init()
+        layer?.shadowColor = UIColor.black.cgColor
+        layer?.shadowRadius = 10.0
+        layer?.shadowOpacity = 1.0
+        layer?.shadowOffset = CGSize.init(width: 1.0, height: 1.0)
+        /*
+        layer.fillColor = UIColor.black.cgColor
+        layer.strokeColor = UIColor.black.cgColor
+        layer.lineWidth = 0.3
+        layer.path = bezierpath.cgPath
+        
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 10.0
+        layer.shadowOpacity = 1.0
+        layer.shadowOffset = CGSize.init(width: 1.0, height: 1.0)
+        */
+        //self.btnAnimate.layer.addSublayer(layer)
+
+        
+        
+        /*
+        [[innerShadow layer] setMasksToBounds:YES];
+        [[innerShadow layer] setCornerRadius:12.0f];
+        [[innerShadow layer] setBorderColor:[UIColorFromRGB(180, 180, 180) CGColor]];
+        [[innerShadow layer] setBorderWidth:1.0f];
+        [[innerShadow layer] setShadowColor:[UIColorFromRGB(0, 0, 0) CGColor]];
+        [[innerShadow layer] setShadowOffset:CGSizeMake(0, 0)];
+        [[innerShadow layer] setShadowOpacity:1];
+        [[innerShadow layer] setShadowRadius:2.0];
+        */
+        
+        /*
+        CAShapeLayer* shadowLayer = [CAShapeLayer layer];
+        [shadowLayer setFrame:[self bounds]];
+        
+        // Standard shadow stuff
+        [shadowLayer setShadowColor:[[UIColor colorWithWhite:0 alpha:1] CGColor]];
+        [shadowLayer setShadowOffset:CGSizeMake(0.0f, 0.0f)];
+        [shadowLayer setShadowOpacity:1.0f];
+        [shadowLayer setShadowRadius:5];
+        
+        // Causes the inner region in this example to NOT be filled.
+        [shadowLayer setFillRule:kCAFillRuleEvenOdd];
+        
+        // Create the larger rectangle path.
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathAddRect(path, NULL, CGRectInset(bounds, -42, -42));
+        
+        // Add the inner path so it's subtracted from the outer path.
+        // someInnerPath could be a simple bounds rect, or maybe
+        // a rounded one for some extra fanciness.
+        CGPathAddPath(path, NULL, someInnerPath);
+        CGPathCloseSubpath(path);
+        
+        [shadowLayer setPath:path];
+        CGPathRelease(path);
+        
+        [[self layer] addSublayer:shadowLayer];
+        */
     }
     
     //MARK:- Curls
